@@ -1,0 +1,7 @@
+require_relative 'aws_manager'
+
+desc 'stop all non default vpc instances'
+task :stop_outsize_instances do
+  aws_manager = AwsManager.new
+  aws_manager.stop_outsize_instances
+end

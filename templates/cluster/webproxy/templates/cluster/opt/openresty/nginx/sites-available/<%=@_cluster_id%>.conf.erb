@@ -1,0 +1,70 @@
+<%# root:root:0755 %>
+
+<% for service in @services  %>
+ upstream cluster_<%=@_cluster_id%>_<%=service['name']%>{
+ server <%=service['ip']%>:<%=service['dest_port']%>;
+}
+<% end %>
+
+
+
+<% for service in @services  %>
+
+ server {
+    server_name p<%=service['src_port']%>.<%=@_webproxy_host%>;
+
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        expires off;
+
+        proxy_pass http://<%=@_webproxy_host%>:<%=service['src_port']%>;
+    }
+}
+
+
+
+server {
+    listen <%=service['src_port']%>;
+    server_name <%=@_webproxy_host%>;
+
+    location / {
+        set $clusterid <%=@_cluster_id%>;
+        set $upstream "cluster_${clusterid}_<%=service['name']%>";
+
+        #resolver 10.0.2.3;
+
+        #set_by_lua $secret 'return os.getenv("JWT_SECRET")';
+
+        access_by_lua '
+            local jwt = require("nginx-jwt")
+
+            local u = "http://p<%=service['src_port']%>.<%=@_webproxy_host%>" .. ngx.var.request_uri
+            local uu = jwt.my_unescape_url(u)
+            local url_login = "<%=@_site_login_url%>?from_url=" .. uu
+
+            jwt.auth({}, "<%=@_cluster_id%>", "<%=@_webproxy_redis_ip%>", "<%=@_webproxy_redis_prefix%>", url_login)
+        ';
+
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        #proxy_set_header X-Forwarded-Host $host;
+        #proxy_set_header X-Forwarded-Server $host;
+        #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #proxy_set_header Host      $host;
+        #proxy_set_header X-Real-IP $remote_addr;
+
+        expires off;
+
+        proxy_pass http://$upstream;
+    }
+
+}
+
+
+<% end %>

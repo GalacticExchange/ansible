@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd /mount/ansible; git pull origin master
+cd /mount/vagrant; git pull origin master

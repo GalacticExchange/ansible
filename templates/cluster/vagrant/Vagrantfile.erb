@@ -1,0 +1,53 @@
+# DOWNLOAD=<%= @_box_download %>
+# DOWNLOAD=http://51.0.1.6/boxes/
+
+
+require "base64"
+p = {
+:NODE_NAME => "<%= @_node_name %>",
+:NODE_ID => "<%= @_node_id %>",
+:NODE_UID => "<%= @_node_uid %>",
+:CLUSTER_ID => "<%= @_cluster_id %>",
+:CLUSTER_UID => "<%= @_cluster_uid %>",
+:CLUSTER_NAME => "<%= @_cluster_name %>",
+:SENSU_NAME => "node_<%= @_node_uid %>",
+:SENSU_NODE_ID => "<%= @_node_uid %>",
+:SENSU_RMQUSER => "<%= @_sensu_rabbitmq_user %>",
+:SENSU_RMQPWD => "<%= @_sensu_rabbitmq_password %>",
+:SENSU_RMQHOST =>  "<%= @_sensu_rabbitmq_host %>",
+:NAME_SERVER =>  "<%= @_dns_ip %>" ,
+:HADOOP_MASTER_IP => "<%= @_hadoop_master_ipv4 %>",
+:OPENVPN_PORT => "<%= @_node_port %>",
+:OPENVPN_IP => "<%= @_openvpn_ip_address %>",
+:TUNNEL_CLIENT_IP => "<%= @_tunnel_client_ip %>",
+:TUNNEL_SERVER_IP => "<%= @_tunnel_server_ip %>",
+:TUNNEL_PORT => "<%= @_tunnel_port %>",
+:INTERFACE => Base64.decode64('<%= @_interface %>'),
+
+<% if @_is_wifi && @_is_wifi == "true" %>
+    :IS_WIFI => "true",
+<% else %>
+    :IS_WIFI => "false",
+<% end %>
+
+:API_IP=>"<%= @_api_public_ip %>",
+
+<% if @_socks_proxy_ip && !@_socks_proxy_ip.nil? %>
+    :SOCKS_PROXY_IP=> "<%= @_socks_proxy_ip %>",
+<% else %>
+    :SOCKS_PROXY_IP=> "None",
+<% end %>
+
+<% if @_static_ips && @_static_ips.to_s == "true" %>
+    :STATIC_IPS => "true",
+    :CONTAINER_IPS => '<%= @_container_ips %>',
+    :NETWORK_MASK => "<%= @_network_mask %>",
+    :GATEWAY_IP => "<%= @_gateway_ip %>",
+<% else %>
+    :STATIC_IPS => "false",
+    :CONTAINER_IPS=>"false",
+    :NETWORK_MASK => "false",
+    :GATEWAY_IP => "false",
+<% end %>
+
+}

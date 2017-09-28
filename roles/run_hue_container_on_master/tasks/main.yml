@@ -1,0 +1,23 @@
+        rm -rf /home/vagrant/hosts/hadoop-master-{{ _cluster_id }} | true &&
+        mkdir -p /home/vagrant/hosts/hadoop-master-{{ _cluster_id }} | true &&
+        bash -c 'echo 127.0.0.1 localhost > /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts' &&
+        bash -c 'echo {{_hue_ipv4}} hue-master-{{ _cluster_id }} >> /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts' &&
+        bash -c 'echo {{_hue_ipv4}} hue-master-{{ _cluster_id }}.gex >> /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts' &&
+        bash -c 'echo {{_hadoop_ipv4}} hadoop-master-{{ _cluster_id }} >> /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts' &&
+        bash -c 'echo {{_hadoop_ipv4}} hadoop-master-{{ _cluster_id }}.gex >> /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts' &&
+        docker run -v /home/vagrant/hosts/hadoop-master-{{ _cluster_id }}/hosts:/etc/hosts -v /dev/log:/dev/log   --dns {{_dns_ip}} --dns 8.8.8.8  -v /tmp -v /var -v /home -v /gex:/gex -v /vagrant:/vagrant -d -ti --privileged  --name $CNAME -h $CNAME gex/hue_{{_hadoop_type}} supervisord -c /etc/supervisor/supervisord.conf -n &&
+        j2 /disk2/vagrant/base/auth/opt/gexauth/gexauth.rb.j2  > /tmp/{{_cluster_id}}_gexauth.rb &&
+        docker cp /tmp/{{_cluster_id}}_gexauth.rb $CNAME:/opt/gexauth/gexauth.rb &&
+        j2 $TEMPLATES/pseudo-distributed.ini.j2 > /tmp/{{_cluster_id}}_pseudo-distributed.ini &&
+        docker cp /tmp/{{_cluster_id}}_pseudo-distributed.ini $CNAME:/opt/hue/desktop/conf/pseudo-distributed.ini &&
+        docker exec $CNAME chmod a+r /opt/hue/desktop/conf/pseudo-distributed.ini &&
+        docker stop $CNAME &&
+        j2 $TEMPLATES/hue.service.j2 > /etc/systemd/system/$CNAME.service &&
+        systemctl enable $CNAME.service &&
+        systemctl start $CNAME &&
+        /bin/bash -c "printf '{{_hue_ipv4}} $CNAME.local\n'  >> /etc/avahi/hosts" &&
+        /usr/sbin/avahi-daemon -r &&
+        bash -c 'echo -e "4658204248\n4658204248" | docker exec -i $CNAME passwd'
+
+
+

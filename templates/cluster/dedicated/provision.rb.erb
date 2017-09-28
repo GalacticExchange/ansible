@@ -1,0 +1,84 @@
+require "base64"
+
+
+# noinspection RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection,RubyDuplicatedKeysInHashInspection
+p = {
+    :NODE_NAME => "<%= @_node_name %>",
+    :NODE_ID => "<%= @_node_id %>",
+    :NODE_UID => "<%= @_node_uid %>",
+    :CLUSTER_ID => "<%= @_cluster_id %>",
+    :CLUSTER_UID => "<%= @_cluster_uid %>",
+    :CLUSTER_NAME => "<%= @_cluster_name %>",
+    :SENSU_NAME => "node_<%= @_node_uid %>",
+    :SENSU_NODE_ID => "<%= @_node_uid %>",
+    :SENSU_RMQUSER => "<%= @_sensu_rabbitmq_user %>",
+    :SENSU_RMQPWD => "<%= @_sensu_rabbitmq_password %>",
+    :SENSU_RMQHOST =>  "<%= @_sensu_rabbitmq_host%>",
+    :NAME_SERVER =>  "<%= @_dns_ip%>" ,
+    :HADOOP_MASTER_IP => "<%= @_hadoop_master_ipv4%>",
+    :OPENVPN_PORT => "<%= @_node_port %>",
+    :OPENVPN_IP => "<%= @_openvpn_ip_address %>",
+    :TUNNEL_CLIENT_IP => "<%= @_tunnel_client_ip %>",
+    :TUNNEL_SERVER_IP => "<%= @_tunnel_server_ip %>",
+    :TUNNEL_PORT => "<%= @_tunnel_port %>",
+    :INTERFACE => Base64.decode64('<%= @_interface %>'),
+
+    <% if @_is_wifi && @_is_wifi=="true"  %>
+    :IS_WIFI => "true",
+    <% else %>
+    :IS_WIFI => "false",
+    <% end %>
+
+
+    :API_IP=>"<%= @_api_public_ip %>",
+
+    <% if @_socks_proxy_ip && !@_socks_proxy_ip.nil? %>
+    :SOCKS_PROXY_IP=> "<%= @_socks_proxy_ip %>",
+    <% else %>
+    :SOCKS_PROXY_IP=> "None",
+    <% end %>
+
+    <% if @_static_ips && @_static_ips.to_s == "true"  %>
+    :STATIC_IPS => "true",
+    :CONTAINER_IPS => '<%= JSON.generate(@_container_ips)  %>',
+    :NETWORK_MASK => "<%= @_network_mask %>",
+    :GATEWAY_IP => "<%= @_gateway_ip %>",
+    <% else %>
+    :STATIC_IPS => "false",
+    :CONTAINER_IPS=>"false",
+    :NETWORK_MASK => "false",
+    :GATEWAY_IP => "false",
+    <% end %>
+}
+
+i = 0
+while system('fuser /var/lib/dpkg/lock') do
+
+  puts "Apt lock wait #{Time.now}"
+
+  raise 'Cannot wait for dpkg lock' if i > 480
+
+  i = i + 1
+  sleep 30
+
+end
+
+
+#system('sudo rm /var/lib/dpkg/updates/*')
+#system('sudo dpkg --configure -a')
+#system('sudo apt-get clean')
+#system('sudo apt-get install -f')
+
+system('cd /home/vagrant/gexstarter/updater && sudo rake update_deb')
+
+#TODO hard fix
+system('gem uninstall --force diplomat')
+system('gem install diplomat -v 1.3.0')
+
+system("sudo ruby /home/vagrant/ruby_scripts/playbook.rb #{p[:NODE_NAME]} #{p[:NODE_NAME]} #{p[:SENSU_NODE_ID]} #{p[:SENSU_RMQUSER]} " \
+              "#{p[:SENSU_RMQPWD]} #{p[:SENSU_RMQHOST]} #{p[:NAME_SERVER]} #{p[:SENSU_NAME]}")
+
+
+system("sudo ruby /home/vagrant/ruby_scripts/slaveplaybook.rb  #{p[:HADOOP_MASTER_IP]} #{p[:API_IP]} #{p[:NAME_SERVER]}  #{p[:CLUSTER_ID]} #{p[:NODE_ID]} #{p[:NODE_UID]} #{p[:CLUSTER_UID]} " +
+              "#{p[:OPENVPN_IP]} #{p[:OPENVPN_PORT]} #{p[:TUNNEL_CLIENT_IP]}  #{p[:TUNNEL_SERVER_IP]} #{p[:TUNNEL_PORT]} #{p[:SOCKS_PROXY_IP]} #{p[:STATIC_IPS]} '#{p[:CONTAINER_IPS]}' " +
+              "#{p[:NETWORK_MASK]} #{p[:GATEWAY_IP]}  ")

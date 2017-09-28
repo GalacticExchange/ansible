@@ -1,0 +1,15 @@
+---
+- hosts: openvpn
+  sudo: yes
+#  roles: 
+#    - create_proxy
+  tasks:
+     - name: ping
+       shell: ping6 -q -c 1 www.google.com
+       register: result
+     - debug: var=result.stdout_lines   
+
+          
+
+
+

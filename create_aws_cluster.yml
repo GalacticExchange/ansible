@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+
+  #--  ENV:  --
+  # _cluster_id
+  # gex_environment
+  # AWS_ACCESS_KEY_ID
+  # AWS_SECRET_KEY
+  # cluster_number
+
+
+  roles:
+    - configure_aws
+

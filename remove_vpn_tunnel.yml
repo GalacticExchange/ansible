@@ -1,0 +1,12 @@
+---
+- hosts: openvpn
+  sudo: true   
+  roles:
+    - removevpntunnel
+    
+ 
+ 
+          
+
+
+

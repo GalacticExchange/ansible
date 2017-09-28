@@ -1,0 +1,23 @@
+---
+
+- hosts: webproxy
+  vars:
+     _webproxy_host: webproxy.gex
+     _redis_host: 104.247.194.114
+     _redis_prefix: gex
+  sudo: true
+  pre_tasks:
+  roles:
+     - {role: create_webproxy, when: _dev is not defined}
+
+
+- hosts: devwebproxy
+  vars:
+     _webproxy_host: devwebproxy.gex
+     _redis_host: 51.0.12.21
+     _redis_prefix: dev_gex
+  sudo: true
+  pre_tasks:
+
+  roles:
+     - {role: create_webproxy, when: _dev is defined}

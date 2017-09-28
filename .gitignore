@@ -1,0 +1,26 @@
+.idea/
+**/.*
+.*
+**/*.box
+base/docker/*
+master/docker/*
+*~
+.idea/
+/target/
+/bin/
+*.deb
+
+
+# But not these files...
+!.gitignore
+!base/.dockerignore
+!api/deploy/.env.*
+!.chef
+!.gitlab-ci.yml
+
+api-docker/env.sh
+log/
+deploy/log/
+!/provisioner/tasks/node.rake
+/provisioner/Gemfile.lock
+test line 1

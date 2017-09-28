@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+namespace :spec do
+
+  desc 'pre conf spec'
+  task :pre_config do
+    system('rspec spec/pre_config_spec.rb')
+  end
+
+  desc 'coordinator spec'
+  task :coord do
+    system('rspec spec/cluster_coordinator_spec.rb')
+  end
+
+  desc 'node spec'
+  task :node do
+    system('rspec spec/node_spec.rb')
+  end
+
+end
+
+
+namespace :it do
+  desc 'create aws cluster test'
+  task :aws_cluster do
+    cmd = "'cd /mount/ansible && rake test_aws_cluster'"
+    system(%Q(sshpass -p PH_GEX_PASSWD1 ssh -o StrictHostKeyChecking=no -t root@51.0.0.55 #{cmd}))
+  end
+
+  desc 'create aws node test'
+  task :aws_node do
+    cmd = "'cd /mount/ansible && rake deploy_test_node_cloud[111111,222222]'"
+    system(%Q(sshpass -p PH_GEX_PASSWD1 ssh -o StrictHostKeyChecking=no -t root@51.0.0.55 #{cmd}))
+  end
+end
+

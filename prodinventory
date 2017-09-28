@@ -1,0 +1,35 @@
+[provisioner]
+51.0.0.55 ansible_ssh_user=root ansible_ssh_pass=PH_GEX_PASSWD1 ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[provisioner:vars]
+name=provisioner
+
+[openvpn]
+openvpn.gex ansible_ssh_user=gex ansible_ssh_pass='PH_GEX_PASSWD3gx' ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[openvpn:vars]
+name=openvpn
+
+
+[proxy]
+proxy.gex ansible_ssh_user=gex ansible_ssh_pass='PH_GEX_PASSWD3gx'  ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[proxy:vars]
+name=proxy
+
+
+[master]
+master.gex ansible_ssh_user=gex ansible_ssh_pass='PH_GEX_PASSWD3\#' ansible_ssh_extra_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[master:vars]
+name=master
+
+[webproxy]
+webproxy.gex ansible_ssh_user=gex ansible_ssh_pass='PH_GEX_PASSWD3gx'  ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[webproxy:vars]
+name=webproxy
+
+
+
+

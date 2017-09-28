@@ -1,0 +1,13 @@
+
+    - name: create clusterGX instance on AWS
+      shell: ruby /mount/ansible/cloud/use_ami/run_node.rb
+      environment:
+        _cluster_id: "{{_cluster_id}}"
+        _gex_env: "{{_gex_env}}"
+        _hadoop_type: 'cdh'
+        _node_agent_token: "{{_node_agent_token}}"
+        _instance_type: "{{_instance_type}}"
+        _node_uid: "{{_node_uid}}"
+        _volume_size: "{{_volume_size |default('100')}}"
+        _debug: "{{_debug | default('')}}"
+        _node_name: "{{_node_name}}"

@@ -1,0 +1,55 @@
+source 'https://rubygems.org'
+
+ruby "2.3.3"
+
+gem 'json'
+gem 'chef'
+gem 'zookeeper'
+
+gem 'diplomat'
+
+#gem 'sidekiq', '5.0.0'
+gem 'sidekiq', '4.2.10'
+gem 'sidekiq-unique-jobs'
+#gem 'sidekiq-superworker'
+#gem 'gush', '0.4.1'
+
+#gem 'gush', '0.4.2', path: '/projects/gush' #workable!!!
+
+gem 'gush-mmx'
+
+#gem 'gush', '0.4.2', github: 'maxivak/gush'
+
+gem 'redis'
+gem 'redis-namespace'
+
+gem 'docker-api'
+
+# new 2017-may-03
+gem 'net-ssh', '4.1.0'
+gem 'httparty', '0.13.7'
+gem 'sshkit', '1.11.1'
+gem 'sshkit-sudo', '0.1.0'
+
+#
+gem 'parallel'
+
+gem 'ruby-kafka', '0.3.15'
+
+gem 'sucker_punch'
+
+gem 'fog-aws', '1.2.1'
+gem 'aws-sdk', '2.9.15'
+
+
+gem 'capistrano',  '3.7.1'
+gem 'capistrano-bundler', '1.1.4'
+gem 'capistrano-rvm',   '0.1.2'
+
+gem 'slackistrano'
+gem 'slack-notifier'
+
+gem 'logstash-logger'
+gem 'poseidon'
+
+gem 'god'

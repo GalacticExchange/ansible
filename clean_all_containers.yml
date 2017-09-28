@@ -1,0 +1,10 @@
+---
+- hosts: master
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: clean
+      shell: >
+        cd /disk2/vagrant/master &&
+        ./cleantestcontainers.sh
+

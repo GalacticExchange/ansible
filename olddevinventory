@@ -1,0 +1,49 @@
+[local] 
+localhost ansible_connection=local
+[local:vars]
+_dns_ip=51.0.12.20
+_api_ip=51.0.12.21
+_dns_public_ip=51.0.12.20
+_api_public_ip=51.0.12.21
+
+_box_download=http://51.0.1.6/boxes/
+_rabbitmq_host=devrabbit.gex
+_openvpn_ip_address = 51.1.0.2
+_openvpn_private_ip_address = 51.0.1.9
+
+[openvpn]
+51.0.1.9 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+[openvpn:vars]
+_openvpn_ip_address = 51.1.0.2
+_openvpn_private_ip_address = 51.0.1.9
+
+[proxy]
+devproxy.gex ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[proxy:vars]
+_proxy_public_ip=51.1.1.3
+_proxy_private_ip=51.0.1.17
+
+
+[master]
+devmaster.gex ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+[master:vars]
+_dns_ip=51.0.12.20
+_api_ip=51.0.12.21
+_api_public_ip=51.0.12.21
+_openvpn_ip_address = 51.1.0.2
+_openvpn_private_ip_address = 51.0.1.8
+ 
+[webproxy]
+devwebproxy.gex ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_ssh_common_args='-o ControlMaster=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+[webproxy:vars]
+_webproxy_host=devwebproxy.gex
+_redis_host=51.0.12.21
+_redis_prefix=gex
+
+[cluster_variables]
+devmaster.gex
+devwebproxy.gex
+
+

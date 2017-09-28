@@ -1,0 +1,36 @@
+
+# TODO Update deb and run rb script?
+
+# Adding swap
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=<%= SWAP_SIZE %>
+sudo /sbin/mkswap /var/swap.1
+sudo chmod 600 /var/swap.1
+sudo /sbin/swapon /var/swap.1
+sudo bash -c "echo '/var/swap.1 swap swap defaults 0 0' >> /etc/fstab"
+
+# Provision ssh data
+sudo mkdir -p /etc/node/nodeinfo
+sudo bash -c "echo <%= get_config('coordinator_private_ip') %> /etc/node/nodeinfo/COORDINATOR_IP"
+sudo bash -c "echo '<%= private_key %>' > /etc/node/nodeinfo/ClusterGX_key.pem"
+
+# Save instance id
+sudo bash -c "echo $(wget -q -O - http://169.254.169.254/latest/meta-data/instance-id) > /etc/node/nodeinfo/aws_instance_id"
+
+# Update deb
+cd /home/vagrant/gexstarter/updater && sudo rake update_deb
+
+# ============================== #
+
+# TODO special environment check #
+
+# ============================== #
+
+#  TODO check docker came up?    #
+
+# ============================== #
+
+
+# install node
+ruby /home/vagrant/gexstarter/aws_scripts/setup_gexclient.rb <%= GEXD_PORT %> <%= get_config('node_uid') %> <%= get_config('node_agent_token') %>
+
+sudo touch /etc/node/nodeinfo/user_data_finished

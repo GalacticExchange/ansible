@@ -1,0 +1,23 @@
+    - name: locations for cloudera vs others
+      set_fact:
+       _hadoop_conf_dir: "/etc/hadoop/conf"
+       _hadoop_bin_dir: "/usr/bin"
+#      when: _hadoop_type == "cdh"
+
+#    - name: locations for cloudera vs others
+#      set_fact:
+#        _hadoop_conf_dir: "/usr/local/hadoop/etc/hadoop"
+#        _hadoop_bin_dir:  "/usr/local/hadoop/bin/"
+#      when:  not _hadoop_type == "cdh"
+
+    - name: create node dir and add node to hadoop
+      shell: >
+        set -x;
+        set -e;
+        docker exec hadoop-master-{{ _cluster_id }}  sed -i.bak '/hadoop-{{_node_name}}/d' {{_hadoop_conf_dir}}/slaves &&
+        docker exec hadoop-master-{{ _cluster_id }} bash -c 'echo hadoop-{{_node_name}}.gex >> {{_hadoop_conf_dir}}/slaves'  &&
+        docker exec hadoop-master-{{ _cluster_id }} bash -c 'echo {{_hadoop_slave_ipv4}} hadoop-{{_node_name}} hadoop-{{_node_name}}.gex >> /etc/hosts' &&
+        docker exec hue-master-{{ _cluster_id }}    bash -c 'echo {{_hadoop_slave_ipv4}} hadoop-{{_node_name}} hadoop-{{_node_name}}.gex >> /etc/hosts' &&
+        docker exec hadoop-master-{{ _cluster_id }} {{_hadoop_bin_dir}}/hadoop dfsadmin -refreshNodes &&
+        docker exec hadoop-master-{{ _cluster_id }} {{_hadoop_bin_dir}}/yarn rmadmin -refreshNodes;
+

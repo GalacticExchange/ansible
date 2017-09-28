@@ -1,0 +1,26 @@
+
+      
+    - name: set variables
+      set_fact:
+        _cname: "{{_framework_name}}-master-{{ _cluster_id }}"
+
+
+    - name: stop and rm service
+      shell: >
+        systemctl stop {{_cname}} &&
+        systemctl disable {{_cname}}.service &&
+        rm /etc/systemd/system/{{_cname}}.service &&
+        docker rm {{_cname}} &&
+        rm -rf /home/vagrant/hosts/hm-{{ _cluster_id }} &&
+        rm -f /tmp/{{_cluster_id}}_* &&
+        systemctl daemon-reload
+
+
+
+
+
+
+
+
+
+

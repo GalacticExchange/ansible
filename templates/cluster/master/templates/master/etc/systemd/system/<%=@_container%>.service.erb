@@ -1,0 +1,15 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network.target docker.socket
+Requires=docker.socket
+
+[Service]
+Restart=on-abnormal
+TimeoutSec=180
+TimeoutStartSec=0
+RestartSec=60
+ExecStart=/usr/bin/docker start -a  <%=@_container %>
+ExecStop=/usr/bin/docker stop -t 1 <%=@_container %>
+ExecStopPost=-/usr/bin/docker stop -t 1 <%=@_container %>
+

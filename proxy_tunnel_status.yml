@@ -1,0 +1,15 @@
+---
+- hosts: openvpn
+  sudo: true
+  tasks:
+    - name: check tunnel status
+      shell: pgrep -f {{_node_number}}_{{_cluster_id}}
+      register: result
+    - debug: var=result.stdout_lines      
+      
+  
+ 
+          
+
+
+

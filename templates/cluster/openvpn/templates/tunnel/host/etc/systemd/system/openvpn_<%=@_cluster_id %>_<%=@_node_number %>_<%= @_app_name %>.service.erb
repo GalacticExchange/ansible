@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenVPN client
+After=network.target
+Requires=network.target
+
+[Service]
+ExecStart=/usr/bin/docker exec openvpn /usr/sbin/openvpn /etc/openvpn/config/<%=assert_nnil(@_cluster_id)%>_<%=assert_nnil(@_node_number)%>_<%=assert_nnil(@_app_name)%>.conf
+ExecReload=/bin/kill -HUP $MAINPID
+
+ExecStop=/usr/bin/docker exec -t openvpn bash -c "/bin/kill $(pgrep -f <%=assert_nnil(@_cluster_id)%>_<%=assert_nnil(@_node_number)%>_<%=assert_nnil(@_app_name)%>)"
+ExecStopPost=/usr/bin/docker exec -t openvpn bash -c "/bin/kill $(pgrep -f <%=assert_nnil(@_cluster_id)%>_<%=assert_nnil(@_node_number)%>_<%=assert_nnil(@_app_name)%>)"
+
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

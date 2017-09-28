@@ -1,0 +1,8 @@
+# OpenVPN autostart on boot upstart job
+
+start on runlevel [5]
+stop on runlevel [!5]
+
+respawn
+
+exec /usr/sbin/openvpn --status /var/run/openvpn.server.status 10 --cd /etc/openvpn --config /etc/openvpn/server.conf --syslog openvpn

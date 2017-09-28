@@ -1,0 +1,50 @@
+- hosts: provisioner
+  gather_facts: no
+
+  roles:
+    - create_aws_instance
+
+  #tasks:
+  #  - name: read hadoop_client_ip
+  #    shell: cat /var/www/ansibledata/{{_cluster_id}}_{{_node_number}}_hadoop_client_ip
+  #    register: hadoop_client_ip
+
+  #  - name: read hadoop_client_port
+  #    shell: cat /var/www/ansibledata/{{_cluster_id}}_{{_node_number}}_hadoop_port
+  #    register: hadoop_client_port
+
+  #  - name: read hue_client_ip
+  #    shell: cat /var/www/ansibledata/{{_cluster_id}}_{{_node_number}}_hue_client_ip
+  #    register: hue_client_ip
+
+  #  - name: read hue_client_port
+  #    shell: cat /var/www/ansibledata/{{_cluster_id}}_{{_node_number}}_hue_port
+  #    register: hue_client_port
+
+    #- set_fact:
+    #    hadoop_port: "{{lookup('file','/var/www/ansibledata/' + (_cluster_id|string) +'_' + (_node_number|string) + '_hadoop_port')}}"
+    #    hadoop_ip: "{{lookup('file','/var/www/ansibledata/' + (_cluster_id|string) +'_' + (_node_number|string) + '_hadoop_client_ip')}}"
+    #    hue_port: "{{lookup('file','/var/www/ansibledata/' + (_cluster_id|string) +'_' + (_node_number|string) + '_hue_port')}}"
+    #    hue_ip: "{{lookup('file','/var/www/ansibledata/' + (_cluster_id|string) +'_' + (_node_number|string) + '_hue_client_ip')}}"
+
+
+    #- include: create_aws_proxy.yml base_port="{{hadoop_port}}" app_client_ip="{{hadoop_ip}}"
+    #- include: create_aws_proxy.yml base_port="{{hue_port}}" app_client_ip="{{hue_ip}}"
+
+
+
+### webproxy
+
+#hue
+#- hosts: proxy
+#  gather_facts: no
+#  vars:
+#    _source_port: "{{10000 + tmp|int}}"
+#    _destination_host: "{{hostvars['localhost']['hue_client_ip'].stdout}}"
+#    _destination_port: 22
+#    _service_name: "hue"
+
+#  sudo: true
+#  roles:
+#    - create_webproxy_service
+

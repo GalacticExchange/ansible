@@ -1,0 +1,22 @@
+
+    - name: create cluster directory
+      file: path="/mount/ansibledata/{{_cluster_id}}" state=directory  mode=0775
+
+    - name: create AWS credentials directory
+      file: path="/mount/ansibledata/{{_cluster_id}}/credentials" state=directory  mode=0775
+
+
+    - name: create AWS key pair and VPC
+      shell: ruby /mount/ansible/cloud/use_ami/run_basic_configure.rb
+      environment:
+        _cluster_id : "{{_cluster_id}}"
+        _cluster_uid: "{{_cluster_uid}}"
+        _aws_access_key_id: "{{_aws_access_key_id}}"
+        _aws_secret_key: "{{_aws_secret_key}}"
+        _aws_region: "{{_aws_region}}"
+        _gex_env: "{{_gex_env}}"
+
+    - name: create container coordinator on AWS
+      shell: ruby /mount/ansible/cloud/use_ami/run_coordinator.rb
+      environment:
+        _cluster_id: "{{_cluster_id}}"

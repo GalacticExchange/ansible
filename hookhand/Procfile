@@ -1,0 +1,1 @@
+web: export SCRIPTS_DIR=/mount/ansible; bundle exec unicorn --host 51.1.0.50 --port 9000 --config-file unicorn.rb

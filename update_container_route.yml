@@ -1,0 +1,21 @@
+---
+
+
+- hosts: openvpn
+  gather_facts: no
+  sudo: true
+  tasks: 
+    - name: update route
+      shell: echo haha #{{_cluster_id}} {{_node_number }} {{_ip_address}}
+  #  - name: create routes  
+  #    shell: > 
+  #      ip route delete {{_ip_address}}/32 || true;
+  #      ip route delete {{_ip_address}}/32 table cluster_{{_cluster_id}} ||true; 
+  #      ip route add {{_ip_address}}/32 via 51.128.{{_cluster_id}}.{{_node_number|int * 2  + 1}} &&
+  #      ip route add {{_ip_address}}/32 via 51.128.{{_cluster_id}}.{{_node_number|int * 2  + 1}} table cluster_{{_cluster_id}}
+        
+  #  - name: make permanent routes  
+  #    lineinfile: dest=/etc/network/interfaces.d/eth2.cfg  state=present regexp='{{_ip_address}}$' line='post-up ip route add {{_ip_address}}/32 via 51.128.{{_cluster_id}}.{{_node_number|int * 2  + 1}}'
+
+  # - name: make permanent routes  
+  #    lineinfile: dest=/etc/network/interfaces.d/eth2.cfg  state=present regexp='{{_ip_address}}$' line='post-up ip route add {{_ip_address}}/32 via 51.128.{{_cluster_id}}.{{_node_number|int * 2  + 1}}  table cluster_{{_cluster_id}}'

@@ -1,0 +1,21 @@
+
+
+
+    - name: clean old files, calculate vpn tunnel port and ips, copy key
+      shell: >
+        rm -f /etc/openvpn/config/{{_cluster_id}}_{{_node_number}}_{{_app_name}}.conf &&
+        rm -f /etc/systemd/system/openvpn_{{_cluster_id}}_{{_node_number}}_{{_app_name}}.service &&
+        ruby /mount/ansible/templates/cluster/openvpn/create_tunnel.rb {{_cluster_id}} {{_node_number}} {{_app_name}} {{_openvpn_ip_address}} {{_node_name}} &&
+        cp /mount/ansible/templates/cluster/openvpn/secret.key /etc/openvpn/config/{{_cluster_id}}_{{_node_number}}_{{_app_name}}.key
+
+
+    - name: create server service 
+      template: >
+        src="../../../templates/cluster/openvpn/server.service.j2"
+        dest="/etc/systemd/system/openvpn_{{_cluster_id}}_{{_node_number}}_{{_app_name}}.service"
+
+    - name: enable and start openvpn service 
+      shell: >
+        systemctl stop openvpn_{{_cluster_id}}_{{_node_number}}_{{_app_name}};
+        systemctl enable openvpn_{{_cluster_id}}_{{_node_number}}_{{_app_name}}.service &&
+        systemctl start  openvpn_{{_cluster_id}}_{{_node_number}}_{{_app_name}}

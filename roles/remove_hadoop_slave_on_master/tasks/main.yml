@@ -1,0 +1,17 @@
+    - name: locations for cloudera vs others
+      set_fact:
+       _hadoop_conf_dir: "/etc/hadoop/conf"
+       _hadoop_bin_dir: "/usr/bin"
+#      when: _hadoop_type == "cdh"
+
+
+    
+    - name: remove container
+      shell: >
+        set -x;
+        set -e;
+        docker exec hadoop-master-{{ _cluster_id }}  sed -i.bak '/hadoop-{{_node_name}}/d' {{_hadoop_conf_dir}}/slaves &&
+        docker exec hadoop-master-{{ _cluster_id }} bash -c 'nohup {{_hadoop_bin_dir}}/hadoop dfsadmin -refreshNodes >/dev/null 2>&1 &' &&
+        docker exec hadoop-master-{{ _cluster_id }} bash -c 'nohup {{_hadoop_bin_dir}}/yarn rmadmin -refreshNodes >/dev/null 2>&1 &'
+
+                                             

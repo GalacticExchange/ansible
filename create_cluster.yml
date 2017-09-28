@@ -1,0 +1,51 @@
+---
+- hosts: provisioner
+  gather_facts: no
+  pre_tasks:
+    - name: create vars directory
+      file: path="/mount/ansibledata/{{_cluster_id}}/vars" state=directory  mode=0775
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+  tasks:
+    - name: call ruby
+      shell: ruby /mount/ansible/templates/cluster/provisioner/create_cluster_first.rb {{_cluster_id}}
+
+
+
+- hosts: openvpn
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+    - name: call create cluster
+      #shell: ruby /mount/ansible/templates/cluster/openvpn/create_cluster.rb {{_cluster_id}}
+      shell: ruby  /disk2/gexcloud-main-data/ansible/templates/cluster/openvpn/create_cluster.rb {{_cluster_id}}
+
+
+
+- hosts: master:proxy:webproxy
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+    - name: call create cluster ruby script
+      #shell: ruby /mount/ansible/templates/cluster/master/create_cluster.rb {{_clusten_id}}
+      shell: ruby /mount/ansible/templates/cluster/{{name}}/create_cluster.rb {{_cluster_id}}
+
+
+
+- hosts: provisioner
+  gather_facts: no
+  #sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+    - name: call create cluster ruby script
+      #shell: ruby /mount/ansible/templates/cluster/master/create_cluster.rb {{_clusten_id}}
+      shell: ruby /mount/ansible/templates/cluster/{{name}}/create_cluster.rb {{_cluster_id}}

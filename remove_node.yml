@@ -1,0 +1,54 @@
+---
+
+- hosts: master
+  gather_facts: no
+  sudo: true
+
+  tasks:
+      - name: call remove_node
+        shell: ruby /mount/ansible/templates/cluster/master/remove_node.rb {{_cluster_id}} {{_node_number}} {{_node_name}}
+
+
+- hosts: provisioner
+  gather_facts: no
+
+  roles:
+    - { role: destroy_aws_node, when: _node_type is defined and _node_type == "aws" }
+
+
+
+- hosts: proxy
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+    - name: call remove node ruby script
+      shell: ruby /mount/ansible/templates/cluster/proxy/remove_node.rb  {{_cluster_id}} {{_node_number}} {{_node_name}}
+      when: _node_type is defined and _node_type == "aws"
+
+
+#### webproxy
+- hosts: webproxy
+  gather_facts: no
+  sudo: true
+
+  tasks:
+    - name: call remove node ruby script
+      shell: ruby /mount/ansible/templates/cluster/webproxy/remove_node.rb  {{_cluster_id}} {{_node_number}} {{_node_name}}
+      when: _node_type is defined and _node_type == "aws"
+
+
+
+- hosts: openvpn
+  gather_facts: no
+  sudo: true
+  tasks:
+      - name: call remove_node
+        shell: ruby /mount/ansible/templates/cluster/openvpn/remove_node.rb {{_cluster_id}} {{_node_number}} {{_node_name}}
+
+
+
+
+

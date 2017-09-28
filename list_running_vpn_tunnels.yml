@@ -1,0 +1,15 @@
+---
+- hosts: openvpn
+  sudo: true
+  tasks:
+    - name: list tunnels
+      shell: pgrep -f -a openvpn
+      register: result
+    - debug: var=result.stdout_lines      
+      
+  
+ 
+          
+
+
+

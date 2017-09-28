@@ -1,0 +1,8 @@
+
+sudo weave launch --ipalloc-range <%= CIDR_WEAVE %>
+sudo weave expose
+
+
+curl -H "Content-Type: application/json" -H "token: <%= get_config('user_token')%>" --data '{"event": "cluster_installed", "clusterID": "<%= get_config('cluster_id')%>"}' <%= GEX_SERVERS[get_config('env')]['api'] %>
+
+sudo touch /etc/node/nodeinfo/user_data_finished

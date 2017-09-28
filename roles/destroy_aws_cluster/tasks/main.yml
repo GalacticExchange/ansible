@@ -1,0 +1,5 @@
+
+    - name: destroy AWS container
+      shell: ruby /mount/ansible/cloud/use_ami/destroy_aws_cluster.rb
+      environment:
+        _cluster_id : "{{_cluster_id}}"

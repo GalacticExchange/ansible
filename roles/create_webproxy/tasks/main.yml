@@ -1,0 +1,27 @@
+# nginx server
+    - name: create nginx server conf
+      template: >
+        src="../../../templates/cluster/webproxy/server.conf.j2"
+        dest=/opt/openresty/nginx/sites-available/{{_cluster_id}}.conf
+        force=yes
+        owner=vagrant group=vagrant mode=0775
+
+    - name: enable server
+      shell: ln -sf /opt/openresty/nginx/sites-available/{{_cluster_id}}.conf /opt/openresty/nginx/sites-enabled/{{_cluster_id}}.conf
+      ignore_errors: yes
+
+    - name: fix permissions
+      shell: >
+        sudo chown vagrant:vagrant -R /opt/openresty/nginx/sites-enabled/;
+        sudo chown vagrant:vagrant -R /opt/openresty/nginx/sites-available/;
+
+
+    - name: reload nginx
+      #shell: sudo /etc/init.d/nginx reload
+      shell: /opt/openresty/nginx/sbin/nginx -s reload -c /opt/openresty/nginx/conf/nginx.conf
+
+
+
+
+
+

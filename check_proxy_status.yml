@@ -1,0 +1,15 @@
+---
+- hosts: proxy
+  sudo: true
+  tasks:
+    - name: check tunnel status
+      shell: pgrep -fa "TCP4-LISTEN:{{_source_port}}" |grep -v pgrep
+      register: result
+    - debug: var=result.stdout_lines      
+      
+  
+ 
+          
+
+
+

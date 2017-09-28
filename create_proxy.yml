@@ -1,0 +1,11 @@
+---
+#### proxy
+- hosts: proxy
+  gather_facts: no
+  vars:
+    _source_port: "{{_port_hadoop_ssh}}"
+    _destination_host: "hadoop-master-{{_cluster_id}}.gex"
+    _destination_port: 22
+  sudo: true
+  roles:
+     - create_proxy

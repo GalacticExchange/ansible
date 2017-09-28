@@ -1,0 +1,6 @@
+    - name: stop service
+      shell:  >
+        systemctl stop  port_{{_cluster_id}}_{{_source_port}};
+        systemctl disable port_{{_cluster_id}}_{{_source_port}} &&
+        rm /etc/systemd/system/port_{{_cluster_id}}_*.service
+        

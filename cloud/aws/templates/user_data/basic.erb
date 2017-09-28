@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -x
+
+sudo cp -R /home/ubuntu/.ssh /home/vagrant/
+sudo chmod 700 /home/vagrant/.ssh
+sudo chmod 600 /home/vagrant/.ssh/authorized_key
+sudo chown -R vagrant /home/vagrant/.ssh/

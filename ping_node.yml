@@ -1,0 +1,15 @@
+---
+- hosts: openvpn
+  sudo: true
+  tasks:
+    - name: ping container
+      shell: ping6 -q -c 1 {{_node_ip6_address}}
+      register: result
+    - debug: var=result.stdout_lines      
+      
+  
+ 
+          
+
+
+

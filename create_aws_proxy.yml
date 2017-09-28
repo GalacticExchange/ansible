@@ -1,0 +1,10 @@
+- hosts: proxy
+  gather_facts: no
+  vars:
+    _source_port: "{{10000 + base_port|int}}"
+    _destination_host: "{{app_client_ip}}"
+    _destination_port: 22
+
+  sudo: true
+  roles:
+    - create_proxy

@@ -1,0 +1,27 @@
+---
+- hosts: provisioner
+  gather_facts: no
+  pre_tasks:
+    - name: create vars directory
+      file: path="/mount/ansibledata/{{_cluster_id}}/vars" state=directory  mode=0775
+      
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars[inventory_hostname] | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}_{{inventory_hostname_short}}.json"
+      sudo: false
+  tasks:
+    - name: call ruby
+      shell: ruby /mount/ansible/templates/cluster/provisioner/create_cluster.rb {{_cluster_id}}
+
+
+
+- hosts: webproxy
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}_{{inventory_hostname_short}}.json"
+      sudo: false
+    - name: call create cluster ruby script
+      shell: ruby /mount/ansible/templates/cluster/{{inventory_hostname_short}}/create_cluster.rb {{_cluster_id}}
+
+

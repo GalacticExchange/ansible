@@ -1,0 +1,24 @@
+---
+- hosts: all
+  sudo : true
+  tasks:
+#    - hostname: name="{{ node_name }}"
+    - name: copy openvpn config
+      copy: src=client.conf dest=/etc/openvpn/client.conf owner=root group=root mode=755
+    - name: copy CA cert
+      copy: src=ca.crt dest=/etc/openvpn owner=root group=root mode=755
+    - name: copy PWD file 
+      copy: src=login.pwd dest=/etc/openvpn owner=root group=root mode=755
+    - name: copy init script
+      copy: src=openvpn dest=/etc/init/openvpn owner=root group=root mode=755      
+      lineinfile: >
+        dest=/etc/hosts regexp="^.*openvpn.gex.*"
+        line="{{ openvpn_ip6_address  | replace("/64", "")}} openvpn.gex" state=present
+#      lineinfile: >
+#        dest=/etc/avahi/avahi-daemon.conf regexp="^.*#domain-name.*"
+#        line="domain-name=.{{cluster_name}}" state=present
+
+#domain-name=local
+
+
+     

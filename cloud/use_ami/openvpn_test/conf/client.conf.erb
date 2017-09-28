@@ -1,0 +1,26 @@
+remote <%= @instance.public_ip_address %> 1194 tcp-client
+
+# Interface type, TUN or TAP.
+dev tun
+
+ifconfig 192.168.0.2 192.168.0.1
+
+# route to server net
+route <%= @range %>  <%= @mask %>
+
+# Keepalive: send ping every 10 seconds, tunnel down after 120 seconds no response.
+keepalive 10 120
+
+# LZO Compression for the tunnel.
+comp-lzo
+
+user nobody
+group nogroup
+
+# Keep trying indefinitely to resolve the
+# host name of the OpenVPN server.  Very useful
+# on machines which are not permanently connected
+# to the internet such as laptops.
+resolv-retry infinite
+
+comp-lzo

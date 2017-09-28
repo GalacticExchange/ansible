@@ -1,0 +1,26 @@
+---
+
+
+- hosts: proxy
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: call remove app
+      shell: ruby /mount/ansible/templates/cluster/proxy/remove_app.rb  {{_cluster_id}} {{_node_number}} {{_node_name}} {{_app_name}}
+
+- hosts: webproxy
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: call remove app
+      shell: ruby /mount/ansible/templates/cluster/webproxy/remove_app.rb  {{_cluster_id}} {{_node_number}} {{_node_name}} {{_app_name}}
+
+
+- hosts: openvpn
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: call remove app
+      shell: ruby /mount/ansible/templates/cluster/openvpn/remove_app.rb  {{_cluster_id}} {{_node_number}} {{_node_name}} {{_app_name}}
+
+

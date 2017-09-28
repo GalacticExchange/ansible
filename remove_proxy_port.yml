@@ -1,0 +1,10 @@
+---
+- hosts: proxy
+  sudo: yes
+  roles: 
+    - removeproxy
+
+          
+
+
+

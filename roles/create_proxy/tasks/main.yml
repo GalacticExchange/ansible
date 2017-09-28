@@ -1,0 +1,9 @@
+    - name: create service.conf
+      template: >
+        src="../../../templates/cluster/proxy/proxy.service.j2"
+        dest="/etc/systemd/system/proxy_{{_cluster_id}}_{{_source_port}}.service"
+        
+    - name: enable proxy.service    
+      shell: systemctl enable proxy_{{_cluster_id}}_{{_source_port}}
+    - name: start service
+      shell:  systemctl start  proxy_{{_cluster_id}}_{{_source_port}}

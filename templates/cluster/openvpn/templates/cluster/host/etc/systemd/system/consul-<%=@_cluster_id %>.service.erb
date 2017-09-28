@@ -1,0 +1,15 @@
+[Unit]
+Description=Consul agent service
+After=network.target docker.socket
+
+[Service]
+SyslogIdentifier=consul-<%= assert_nnil(@_cluster_id) %>
+ExecStart=/usr/bin/docker exec  openvpn bash -c '/usr/bin/consul agent -ui -config-file /etc/consul/consul-<%= assert_nnil(@_cluster_id) %>.json >> /data/consul_logs/consul-<%= @_cluster_id %>.log 2>&1'
+
+ExecStop=/usr/bin/pkill -f consul-<%= assert_nnil(@_cluster_id) %>
+ExecStopPost=/usr/bin/pkill -f consul-<%= assert_nnil(@_cluster_id) %>
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

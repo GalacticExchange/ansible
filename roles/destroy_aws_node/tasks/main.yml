@@ -1,0 +1,6 @@
+
+    - name: remove node aws instance
+      shell: ruby /mount/ansible/cloud/use_ami/destroy_aws_node.rb
+      environment:
+        _cluster_id : "{{_cluster_id}}"
+        _node_uid: "{{_node_uid}}"

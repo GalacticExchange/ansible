@@ -1,0 +1,13 @@
+---
+- hosts: openvpn
+  sudo: true
+  tasks:
+    - name: remove tunnels
+      shell: rm -rf /etc/openvpn/*.conf
+
+
+ 
+          
+
+
+

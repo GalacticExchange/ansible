@@ -1,0 +1,10 @@
+[Unit]
+Description=SideKiq service
+Documentation=https://docs.docker.com
+After=network.target docker.socket
+Requires=docker.socket
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker exec -t gex-provisioner /mount/ansible/provisioner/run_gush.sh <%=gex_env%>
+ExecStop=/usr/bin/docker exec -t gex-provisioner bash -c "kill -9 $(pgrep -f sidekiq)"

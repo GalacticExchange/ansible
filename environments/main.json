@@ -1,0 +1,20 @@
+{
+  "name": "main",
+  "chef_type": "environment",
+  "json_class": "Chef::Environment",
+  "description": "",
+
+  "default_attributes": {
+    "webproxy_host": "devwebproxy.net",
+    "redis_host": "51.1.0.21",
+    "redis_prefix": "gex"
+  },
+  "override_attributes": {
+
+  },
+
+
+  "cookbook_versions": {
+  }
+
+}

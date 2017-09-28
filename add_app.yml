@@ -1,0 +1,30 @@
+---
+- hosts: openvpn
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: dump facts to file
+      local_action: copy content='{{ hostvars | to_nice_json}}' dest="/mount/ansibledata/{{_cluster_id}}/vars/inventory_{{_cluster_id }}.json"
+      sudo: false
+    - name: call add app ruby script
+      shell: ruby /mount/ansible/templates/cluster/openvpn/add_app.rb  {{_cluster_id}}
+
+
+#### proxy flexible
+- hosts: proxy
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: call add app ruby script
+      shell: ruby /mount/ansible/templates/cluster/proxy/add_app.rb  {{_cluster_id}}
+      when: _ssh_port is defined and _node_type is defined and _node_type == "aws"
+
+
+#### webproxy flexible
+- hosts: webproxy
+  gather_facts: no
+  sudo: true
+  tasks:
+    - name: call add app ruby script
+      shell: ruby /mount/ansible/templates/cluster/webproxy/add_app.rb  {{_cluster_id}}
+      when: _web_services is defined and _node_type is defined and _node_type == "aws"

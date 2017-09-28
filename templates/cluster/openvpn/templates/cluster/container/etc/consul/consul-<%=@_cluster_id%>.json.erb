@@ -1,0 +1,17 @@
+{
+  "datacenter": "cluster-<%= assert_nnil(@_cluster_id) %>",
+  "data_dir": "/data/consul/consul-<%= assert_nnil(@_cluster_id) %>",
+  "log_level": "INFO",
+  "node_name": "consul-<%= assert_nnil(@_cluster_id) %>",
+  "server": true,
+  "client_addr": "51.0.1.8",
+  "bootstrap": true,
+  "bind_addr": "51.0.1.8",
+  "ports": {
+    "dns": <%= assert_nnil(@_consul_ports[:dns]) %>,
+    "http": <%= assert_nnil(@_consul_ports[:http]) %>,
+    "serf_lan": <%= assert_nnil(@_consul_ports[:serf_lan]) %>,
+    "serf_wan": <%= assert_nnil(@_consul_ports[:serf_wan]) %>,
+    "server": <%= assert_nnil(@_consul_ports[:server]) %>
+  }
+}
