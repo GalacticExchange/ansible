@@ -73,7 +73,7 @@ class OpenVpnServer < GexAWS
 end
 
 =begin
-open_vpn_server = OpenVpnServer.new('PH_GEX_AWS_KEY','PH_GEX_AWS_ID')
+open_vpn_server = OpenVpnServer.new('PH_GEX_KEY_ID','PH_GEX_ACESS_KEY')
 open_vpn_server.start_new
 open_vpn_server.run_openvpn_server
 

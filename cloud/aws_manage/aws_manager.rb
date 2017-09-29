@@ -7,7 +7,7 @@ class AwsManager
   DEFAULT_REGION = 'us-west-2'
   DEFAULT_VPC = 'vpc-5dd7be38'
 
-  AWS_KEYS = {key_id: 'PH_GEX_AWS_KEY', key_secret: 'PH_GEX_AWS_ID'}
+  AWS_KEYS = {key_id: 'PH_GEX_KEY_ID', key_secret: 'PH_GEX_ACESS_KEY'}
 
   #IMPORTANT: all regions except default!!!
   # noinspection RubyLiteralArrayInspection

@@ -1,8 +1,8 @@
 
 module MainEnv
 
-  DEFAULT_KEY_ID = 'PH_GEX_AWS_KEY'
-  DEFAULT_KEY_SECRET = 'PH_GEX_AWS_ID'
+  DEFAULT_KEY_ID = 'PH_GEX_KEY_ID'
+  DEFAULT_KEY_SECRET = 'PH_GEX_ACESS_KEY'
 
 
   def forward_main_env

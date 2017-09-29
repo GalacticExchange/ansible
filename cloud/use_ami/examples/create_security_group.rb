@@ -4,8 +4,8 @@ require 'fog/aws'
 fog = Fog::Compute.new(
     :provider => 'AWS',
     :region => 'us-west-2',
-    :aws_access_key_id => 'PH_GEX_AWS_KEY',
-    :aws_secret_access_key => 'PH_GEX_AWS_ID'
+    :aws_access_key_id => 'PH_GEX_KEY_ID',
+    :aws_secret_access_key => 'PH_GEX_ACESS_KEY'
 )
 
 gex_security_group = fog.create_security_group('ClusterGX', 'ClusterGX VPC security group', 'vpc-b9b79fdd')

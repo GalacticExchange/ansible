@@ -5,8 +5,8 @@ require_relative 'credentials'
 MOUNT_PATH = '/mnt/aws_sync'
 AWS_CREDENTIALS_PATH = File.join(File.dirname(__FILE__), 'aws_credentials')
 
-#ACCESS_KEY_ID = 'PH_GEX_AWS_KEY'
-#SECRET_ACCESS_KEY = 'PH_GEX_AWS_ID'
+#ACCESS_KEY_ID = 'PH_GEX_KEY_ID'
+#SECRET_ACCESS_KEY = 'PH_GEX_ACESS_KEY'
 
 
 

@@ -211,7 +211,7 @@ end
 
 desc "Deploy second node on cloud"
 task :deploy_second_node_cloud, [:node_uid, :gex_token, :debug] do |task, args|
-  ansible("create_aws_cluster.yml -e '_cluster_id=113 _cluster_uid=113333 _gex_env=test _aws_region=us-west-2 _aws_access_key_id=PH_GEX_AWS_KEY _aws_secret_key=PH_GEX_AWS_ID'")
+  ansible("create_aws_cluster.yml -e '_cluster_id=113 _cluster_uid=113333 _gex_env=test _aws_region=us-west-2 _aws_access_key_id=PH_GEX_KEY_ID _aws_secret_key=PH_GEX_ACESS_KEY'")
   ansible("create_node_aws_instance.yml -e '_cluster_id=113 _instance_type=t2.medium _hadoop_type=cdh _gex_env=main _node_agent_token=#{args[:gex_token]} _node_uid=#{args[:node_uid]} _debug=#{args[:debug]}'")
 end
 
@@ -222,7 +222,7 @@ end
 
 desc 'Create test aws cluster'
 task :test_aws_cluster do
-  ansible(%Q(create_cluster.yml -e '{"_port_ssh":5002,"_port_hadoop_resource_manager":56001,"_port_hdfs":56002,"_port_hdfs_namenode_webui":56003,"_port_hue":56000,"_port_spark_master_webui":56004,"_port_spark_history":56005,"_gex_env":"main","_cluster_id":112,"_cluster_uid":"1234567890","_cluster_type":"aws","_cluster_name":"scary_indus","_cluster_id_hex":"70","_hadoop_type":"cdh","_aws_region":"us-east-1","_aws_access_key_id":"PH_GEX_AWS_KEY","_aws_secret_key":"PH_GEX_AWS_ID"}'))
+  ansible(%Q(create_cluster.yml -e '{"_port_ssh":5002,"_port_hadoop_resource_manager":56001,"_port_hdfs":56002,"_port_hdfs_namenode_webui":56003,"_port_hue":56000,"_port_spark_master_webui":56004,"_port_spark_history":56005,"_gex_env":"main","_cluster_id":112,"_cluster_uid":"1234567890","_cluster_type":"aws","_cluster_name":"scary_indus","_cluster_id_hex":"70","_hadoop_type":"cdh","_aws_region":"us-east-1","_aws_access_key_id":"PH_GEX_KEY_ID","_aws_secret_key":"PH_GEX_ACESS_KEY"}'))
 end
 
 desc 'Git pull'
