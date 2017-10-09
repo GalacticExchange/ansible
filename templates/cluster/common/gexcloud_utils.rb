@@ -1,6 +1,6 @@
 require_relative '../../../provisioner/lib/gex_logger'
 
-LIB_DIR = "../../../../vagrant/base/ruby_scripts"
+LIB_DIR = "../../../../gexcloud/base/ruby_scripts"
 
 require_relative "#{LIB_DIR}/common"
 
