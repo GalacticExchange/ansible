@@ -19,8 +19,8 @@ module DockerCookbook
 
     action :run do
       converge_by 'processing template...' do
-        with_retries {container_obj Docker::Container.get(container, {}, connection)}
-        process_template(get_template_path, destination)
+        with_retries {new_resource.container_obj Docker::Container.get(new_resource.container, {}, connection)}
+        process_template(get_template_path, new_resource.destination)
       end
     end
 
