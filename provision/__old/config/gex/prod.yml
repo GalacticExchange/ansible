@@ -1,0 +1,55 @@
+gex_env: 'prod'
+
+redis_host: "51.0.0.12"
+redis_prefix: "gex"
+
+sidekiq_redis_prefix: "gex_production_sidekiq"
+
+log_kafka_host: '51.0.0.62'
+log_kafka_port: 9092
+log_kafka_topic: 'log_app'
+
+provision_notify_channel: 'provisionnotify'
+
+
+# machine 1
+server_master:
+  host: '51.1.0.50'
+  server_host: "51.1.0.50"
+  server_user: 'root'
+  server_pwd: 'PH_GEX_PASSWD3#'
+  container_name: ""
+  docker_engine: "tcp://51.1.0.50:2375"
+
+# machine 2
+server_openvpn:
+  host: '51.0.1.8'
+  server_host: "51.1.0.51"
+  server_user: 'root'
+  server_pwd: 'PH_GEX_PASSWD3#'
+  container_name: "openvpn"
+  docker_engine: "tcp://51.1.0.51:2375"
+
+
+
+server_proxy:
+  server_host: "51.1.0.51"
+  server_user: 'root'
+  server_pwd: 'PH_GEX_PASSWD3#'
+  container_name: "proxy"
+  docker_engine: "tcp://51.1.0.50:2375"
+
+# machine 3
+server_webproxy:
+  server_host: "51.1.0.52"
+  server_user: 'root'
+  server_pwd: 'PH_GEX_PASSWD3#'
+  container_name: "gex-webproxy"
+  docker_engine: "tcp://51.1.0.52:2375"
+
+
+
+server_provisioner:
+  server_host: "51.0.0.55"
+  server_user: 'root'
+  server_pwd: 'PH_GEX_PASSWD3#'

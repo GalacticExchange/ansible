@@ -1,0 +1,17 @@
+{
+  "datacenter": "cluster-<%= node.fetch('cluster_id') %>",
+  "data_dir": "/data/consul/consul-<%= node.fetch('cluster_id') %>",
+  "log_level": "INFO",
+  "node_name": "consul-<%= node.fetch('cluster_id') %>",
+  "server": true,
+  "client_addr": "51.0.1.8",
+  "bootstrap": true,
+  "bind_addr": "51.0.1.8",
+  "ports": {
+    "dns": "<%= vars.fetch(:consul_ports).fetch(:dns) %>",
+    "http": "<%= vars.fetch(:consul_ports).fetch(:http) %>",
+    "serf_lan": "<%= vars.fetch(:consul_ports).fetch(:serf_lan) %>",
+    "serf_wan": "<%= vars.fetch(:consul_ports).fetch(:serf_wan)%>",
+    "server": "<%= vars.fetch(:consul_ports).fetch(:server) %>"
+  }
+}

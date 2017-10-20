@@ -10,6 +10,7 @@ master/docker/*
 /bin/
 *.deb
 
+provision/nodes
 
 # But not these files...
 !.gitignore

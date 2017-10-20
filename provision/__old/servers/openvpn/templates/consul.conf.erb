@@ -1,0 +1,4 @@
+[program:consul_<%= vars.fetch(:cluster_id) %>]
+command=/usr/bin/consul agent -ui -config-file /etc/consul/consul_<%= vars.fetch(:cluster_id) %>.json >> /data/consul_logs/consul_<%= vars.fetch(:cluster_id) %>.log 2>&1
+autostart=true
+autorestart=true
