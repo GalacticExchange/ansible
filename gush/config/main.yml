@@ -1,0 +1,10 @@
+gex_env: 'main'
+redis_host: "51.0.0.12"
+redis_prefix: "gex_main"
+sidekiq_redis_prefix: "gex_main_sidekiq"
+log_kafka_host: '51.0.0.62'
+log_kafka_port: 9092
+log_kafka_topic: 'log_app'
+provision_notify_channel: 'provisionnotify'
+
+
