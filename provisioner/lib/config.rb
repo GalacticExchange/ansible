@@ -21,7 +21,7 @@ module Config
 
     require 'yaml'
 
-    f = File.join(File.dirname(__FILE__), "../config/gex/#{@@app_env}.yml")
+    f = File.join(File.dirname(__FILE__), "../config/gex/#{app_env}.yml")
     h =YAML.load_file(f)
 
     #puts "h: #{h}"
