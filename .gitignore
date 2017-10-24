@@ -12,6 +12,8 @@ master/docker/*
 
 provision/nodes
 
+*.lock
+
 # But not these files...
 !.gitignore
 !base/.dockerignore
