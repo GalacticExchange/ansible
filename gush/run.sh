@@ -12,7 +12,7 @@ gex_env="${gex_env:-$1}"
 
 [[ -z "${gex_env}" ]] && {
     echo -e "${RED}gex_env is unset${NC}";
-    echo -e "Usage: ${YELLOW}./run_gush \$gex_env ${NC}"
+    echo -e "Usage: ${YELLOW}./run.sh \$gex_env ${NC}"
     exit 1
 }
 

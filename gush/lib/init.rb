@@ -16,3 +16,5 @@ Gush.configure do |c|
   c.sidekiq_queue = sidekiq_queue
   c.concurrency = concurrency
 end
+
+Gush.reconfigure_sidekiq
