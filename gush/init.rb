@@ -1,8 +1,9 @@
 require 'gush'
 require 'yaml'
-require_relative 'config'
 
-Config.load_conf(ENV.fetch('gex_env'))
+Dir['lib/*.rb', 'lib/provision/*.rb'].each do |file|
+  require_relative file
+end
 
 # options
 redis_prefix = Config.sidekiq_redis_prefix
@@ -18,3 +19,8 @@ Gush.configure do |c|
 end
 
 Gush.reconfigure_sidekiq
+
+
+Dir['jobs/*.rb', 'workflows/*.rb'].each do |file|
+  require_relative file
+end

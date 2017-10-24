@@ -23,3 +23,4 @@ module Config
   end
 end
 
+Config.load_conf(ENV.fetch('gex_env'))

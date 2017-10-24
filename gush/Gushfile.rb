@@ -1,4 +1,4 @@
-require_relative 'lib/init'
+require_relative 'init'
 
 
 #logger = Logger.new(File.join('log', 'gush.log'))
