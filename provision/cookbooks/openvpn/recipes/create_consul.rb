@@ -1,14 +1,14 @@
-docker_exec 'create consul logs directory' do
-  host "tcp://#{node.env_default['openvpn']}:2375"
-  container 'gexcore-openvpn'
-  command ['mkdir', '-p', '/data/consul_logs']
-end
+# docker_exec 'create consul logs directory' do
+#   host "tcp://#{node.env_default['openvpn']}:2375"
+#   container 'gexcore-openvpn'
+#   command ['mkdir', '-p', '/data/consul_logs']
+# end
 
 docker_exec 'remove supervisor service if exists' do
   host "tcp://#{node.env_default['openvpn']}:2375"
   container 'gexcore-openvpn'
   ignore_failure true
-  command ["rm /etc/supervisor/conf.d/consul_#{node['attributes'].fetch('cluster_id')}"]
+  command ['bash', '-c', "rm /etc/supervisor/conf.d/consul_#{node['attributes'].fetch('cluster_id')}.conf"]
 end
 
 docker_exec 'supervisor reread' do

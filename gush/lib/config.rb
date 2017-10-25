@@ -1,4 +1,3 @@
-
 module Config
   class << self
 
@@ -6,7 +5,6 @@ module Config
 
     def load_conf(env)
       self.conf = YAML.load_file(self.conf_path(env))
-
     end
 
 

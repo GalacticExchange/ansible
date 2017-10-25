@@ -12,3 +12,4 @@ Chef::Config[:color] = true
 Chef::Config[:solo_legacy_mode] = true
 Chef::Config[:cookbook_path] = [File.join(File.absolute_path(File.dirname(__FILE__)), 'cookbooks')]
 Chef::Config[:environment_path] = File.join(File.absolute_path(File.dirname(__FILE__)), 'environments')
+Chef::Config[:environment] = ENV.fetch('gex_env')

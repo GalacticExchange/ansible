@@ -24,3 +24,9 @@ Gush.reconfigure_sidekiq
 Dir['jobs/*.rb', 'workflows/*.rb'].each do |file|
   require_relative file
 end
+
+
+Sidekiq.configure_client do |config|
+  config.redis = { url: "redis://#{Config.redis_host}:6379/0",
+                   namespace: "#{Config.sidekiq_redis_prefix}" }
+end

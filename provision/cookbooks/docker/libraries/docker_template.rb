@@ -9,7 +9,7 @@ module DockerCookbook
 
     property :destination, String, name_property: true
     property :host, [String, nil], default: lazy {default_host}
-    property :cookbook, [String, nil], default: lazy {cookbook_name}
+    property :cookbook, [String, Symbol, nil], default: lazy {cookbook_name}
     property :source, String
     property :container, String
     property :timeout, Numeric, default: 60
@@ -30,7 +30,7 @@ module DockerCookbook
     end
 
     def get_template_path
-      ::File.join(Chef::Config[:cookbook_path], cookbook, 'templates', source)
+      ::File.join(Chef::Config[:cookbook_path], cookbook.to_s, 'templates', source)
     end
 
     def process_template(source, destination)
