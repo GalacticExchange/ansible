@@ -15,7 +15,7 @@ Chef::Config[:environment] = ENV.fetch('gex_env')
 Chef::Config[:lockfile] = "/tmp/cluster_#{cluster_data.fetch('cluster_id')}"
 
 chef_client = Chef::Application::Solo.new
-chef_client.config[:override_runlist] = ['recipe[openvpn::create_consul]']
+chef_client.config[:override_runlist] = ['recipe[openvpn::create_consul]', 'recipe[provisioner::create_cluster]']
 
 chef_client.set_json_attr(
     attributes: {
