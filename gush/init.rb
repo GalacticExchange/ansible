@@ -1,7 +1,8 @@
 require 'gush'
 require 'yaml'
 
-Dir['lib/*.rb', 'lib/provision/*.rb'].each do |file|
+base_dir = File.dirname(__FILE__)
+Dir[File.join(base_dir, 'lib/*.rb'), File.join(base_dir, 'lib/provision/*.rb')].each do |file|
   require_relative file
 end
 
@@ -21,12 +22,12 @@ end
 Gush.reconfigure_sidekiq
 
 
-Dir['jobs/*.rb', 'workflows/*.rb'].each do |file|
+Dir[File.join(base_dir, 'jobs/*.rb'), File.join(base_dir, 'workflows/*.rb')].each do |file|
   require_relative file
 end
 
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: "redis://#{Config.redis_host}:6379/0",
-                   namespace: "#{Config.sidekiq_redis_prefix}" }
+  config.redis = {url: "redis://#{Config.redis_host}:6379/0",
+                  namespace: "#{Config.sidekiq_redis_prefix}"}
 end
